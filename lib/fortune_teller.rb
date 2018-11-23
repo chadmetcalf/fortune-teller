@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # PERSON ACTION THING TIME
 # Hazel - will - get chased by - a unicorn - tomorrow
 
