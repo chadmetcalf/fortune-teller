@@ -7,8 +7,8 @@ COLORS = %w{AliceBlue AntiqueWhite Aqua Aquamarine Azure Beige Bisque Black Blan
 
 class App < Roda
   plugin :render
-  plugin :static, ['/images']
-
+  plugin :public
+  
   route do |r|
     # GET / request
     r.root do
