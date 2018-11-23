@@ -12,6 +12,7 @@ git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 gem "roda", "~> 3.14"
 
 gem 'tilt'
+gem 'bundler'
 
 # Added at 2018-11-23 15:17:01 -0600 by cdm:
 gem "pry", "~> 0.12.2"

@@ -20,11 +20,15 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bundler
   pry (~> 0.12.2)
   pry-remote (~> 0.1.8)
   puma
   roda (~> 3.14)
   tilt
 
+RUBY VERSION
+   ruby 2.5.1p57
+
 BUNDLED WITH
-   1.16.1
+   1.17.1
