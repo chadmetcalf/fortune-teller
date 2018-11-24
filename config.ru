@@ -28,7 +28,7 @@ class App < Roda
 
     # GET / request
     r.root do
-      r.redirect "/tell"
+      r.redirect "/for"
     end
 
     # /tell branch
@@ -46,13 +46,26 @@ class App < Roda
 
     r.get "for", String, method: :get do |person|
       person.capitalize!
-      
+
       @story = Story.new
       @image_url = FORTUNE_TELLER_IMAGES.sample
       @title = "I see a fortune for #{person}!"
       @lines = "<p style='color: #{COLORS.sample};'>#{@story.sentence(person)}</p>"
 
       render("story")
+    end
+
+    r.on "for" do
+      r.get do
+        @title = "Whose fortune should I tell?"
+        @image_url = FORTUNE_TELLER_IMAGES.sample
+
+        render("form")
+      end
+
+      r.post do
+        r.redirect "/for/#{r.params['name']}"
+      end
     end
   end
 end

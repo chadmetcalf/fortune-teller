@@ -25,11 +25,12 @@
 </head>
 
 <body>
-  <a href="/">Another Fortune?</a>
-  <br />
   <h1><%= @title %></h1>
-  <%= @lines %>
-  <h1><%= @story.ending %></h1>
+  <form action="/for" method="post">
+      <label for="name">Name</label>
+      <input type="text" placeholder="Name" required="true" name="name"  />
+      <button type="submit">Submit</button>
+  </form>
   <br />
   <img src=<%= @image_url %> alt="Fortune Teller">
 </body>
