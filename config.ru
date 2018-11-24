@@ -36,9 +36,21 @@ class App < Roda
       @story = Story.new
       @image_url = FORTUNE_TELLER_IMAGES.sample
 
+      @title = @story.title
       @lines = @story.sentences.reduce('') do |page, line|
         page += "<p style='color: #{COLORS.sample};'>#{line}</p>"
       end
+
+      render("story")
+    end
+
+    r.get "for", String, method: :get do |person|
+      person.capitalize!
+      
+      @story = Story.new
+      @image_url = FORTUNE_TELLER_IMAGES.sample
+      @title = "I see a fortune for #{person}!"
+      @lines = "<p style='color: #{COLORS.sample};'>#{@story.sentence(person)}</p>"
 
       render("story")
     end
