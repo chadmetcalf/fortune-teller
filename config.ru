@@ -34,7 +34,7 @@ class App < Roda
     # /tell branch
     r.get "tell" do
       @story = Story.new
-      @image = FORTUNE_TELLER_IMAGES.sample
+      @image_url = FORTUNE_TELLER_IMAGES.sample
 
       @lines = @story.sentences.reduce('') do |page, line|
         page += "<p style='color: #{COLORS.sample};'>#{line}</p>"
