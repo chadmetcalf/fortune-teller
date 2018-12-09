@@ -70,20 +70,4 @@ class Story
 
     "#{person} will #{action} #{thing} #{time}."
   end
-
-  def title
-    "I see #{PEOPLE.count} things in your future!"
-  end
-
-  def ending
-    "So it is foretold!"
-  end
-
-  def sentences
-    people = PEOPLE.shuffle
-
-    ["First", "Second", "Then", "Finally"].zip(people).collect do |opening_word, person|
-      "#{opening_word}, #{sentence(person)}"
-    end
-  end
 end

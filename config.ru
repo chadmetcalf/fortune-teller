@@ -36,8 +36,15 @@ class App < Roda
       @story = Story.new
       @image_url = FORTUNE_TELLER_IMAGES.sample
 
-      @title = @story.title
-      @lines = @story.sentences.reduce('') do |page, line|
+      @title = "I see #{PEOPLE.count} things in your future!"
+
+      people = PEOPLE.shuffle
+
+      sentences = ["First", "Second", "Then", "Finally"].zip(people).collect do |opening_word, person|
+        "#{opening_word}, #{sentence(person)}"
+      end
+
+      @lines = sentences.reduce('') do |page, line|
         page += "<p style='color: #{COLORS.sample};'>#{line}</p>"
       end
 
