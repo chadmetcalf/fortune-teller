@@ -4,12 +4,7 @@
 # Hazel - will - get chased by - a unicorn - tomorrow
 
 class Story
-  PEOPLE = [
-    "Beanie",
-    "Kiekers",
-    "Dadu",
-    "The Mothership"
-  ]
+  PEOPLE = []
 
   ACTIONS = [
     "get chased by",

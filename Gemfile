@@ -13,6 +13,7 @@ gem "roda", "~> 3.14"
 
 gem 'tilt'
 gem 'bundler'
+gem 'activesupport', require: false
 
 # Added at 2018-11-23 15:17:01 -0600 by cdm:
 gem "pry", "~> 0.12.2"
