@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # SUBJECT ACTION THING TIME
 # Hazel - will - get chased by - a unicorn - tomorrow
 # Kiersten - will - parachute from - bees - next year
