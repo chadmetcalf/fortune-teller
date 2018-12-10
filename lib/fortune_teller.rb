@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
-# PERSON ACTION THING TIME
+# SUBJECT ACTION THING TIME
 # Hazel - will - get chased by - a unicorn - tomorrow
+# Kiersten - will - parachute from - bees - next year
 
 class Story
-  PEOPLE = []
-
   ACTIONS = [
     "get chased by",
     "ride",
@@ -54,15 +53,11 @@ class Story
     "at 8:16 am"
   ]
 
-  def self.tell
-    new
-  end
-
-  def sentence(person)
+  def sentence(subject)
     action = ACTIONS.sample
     thing = THINGS.sample
     time = TIMES.sample
 
-    "#{person} will #{action} #{thing} #{time}."
+    "#{subject} will #{action} #{thing} #{time}."
   end
 end

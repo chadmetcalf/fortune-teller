@@ -6,19 +6,15 @@ ruby '2.5.1'
 
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
-# gem "rails"
-
-# Added at 2018-11-23 15:16:46 -0600 by cdm:
 gem "roda", "~> 3.14"
-
 gem 'tilt'
-gem 'bundler'
 gem 'activesupport', require: false
 
-# Added at 2018-11-23 15:17:01 -0600 by cdm:
+gem 'bundler'
+gem "roda-live_reload"
+gem "better_errors"
+gem "binding_of_caller"
 gem "pry", "~> 0.12.2"
-
-# Added at 2018-11-23 15:44:08 -0600 by cdm:
 gem "pry-remote", "~> 0.1.8"
 
 gem 'puma'

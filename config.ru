@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
-require "bundler"
-Bundler.require(:default)
+require 'rubygems'
+require 'bundler'
+
+Bundler.require
 
 require 'cgi'
 require 'active_support/inflector'
@@ -19,12 +21,24 @@ FORTUNE_TELLER_IMAGES = [
   "https://scoundreltime.com/wp-content/uploads/2017/07/6938633816_105f6d6cab_b-716x1024.jpg"
 ]
 
+
 class App < Roda
+  development = ENV.fetch("RACK_ENV", "development") == "development"
+
   opts[:root] = ''
   plugin :render
   plugin :public, root: 'images'
+  if development
+    plugin :middleware_stack
+    plugin :live_reload, watch: ["images", "views", "lib", "config.ru"]
+    #
+    middleware_stack.before{::BetterErrors::Middleware}
+    ::BetterErrors.application_root = __dir__
+  end
 
   route do |r|
+    r.live_reload if development
+
     r.public
 
     # GET / request
@@ -34,15 +48,17 @@ class App < Roda
 
     # /tell branch
     r.get "tell" do
+      subjects = ["The Mothership", "Kiersten", "Hazel", "Dadu", "Biscuit"]
+
       @story = Story.new
       @image_url = FORTUNE_TELLER_IMAGES.sample
 
-      @title = "I see #{PEOPLE.count} things in your future!"
+      @title = "I see #{subjects.count} things in your future!"
 
-      people = PEOPLE.shuffle
+      subject = subjects.shuffle
 
-      sentences = ["First", "Second", "Then", "Finally"].zip(people).collect do |opening_word, person|
-        "#{opening_word}, #{sentence(person)}"
+      sentences = ["First", "Second", "Then", "Finally"].zip(subject).collect do |opening_word, subject|
+        "#{opening_word}, #{@story.sentence(subject)}"
       end
 
       @lines = sentences.reduce('') do |page, line|
@@ -52,13 +68,13 @@ class App < Roda
       view("story")
     end
 
-    r.get "for", String, method: :get do |person|
-      person = CGI.unescape(person.titleize)
+    r.get "for", String, method: :get do |subject|
+      subject = CGI.unescape(subject.titleize)
 
       @story = Story.new
       @image_url = FORTUNE_TELLER_IMAGES.sample
-      @title = "I see a fortune for #{CGI.unescape(person)}!"
-      @lines = "<p style='color: #{COLORS.sample};'>#{@story.sentence(person)}</p>"
+      @title = "I see a fortune for #{subject}!"
+      @lines = "<p style='color: #{COLORS.sample};'>#{@story.sentence(subject)}</p>"
 
       view("story")
     end
