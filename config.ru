@@ -4,9 +4,11 @@ Bundler.require
 
 require 'cgi'
 require 'active_support/inflector'
+require 'yaml'
 require_relative "lib/fortune_teller"
 
-COLORS = %w{AliceBlue Aqua Aquamarine Azure Beige Bisque Black BlanchedAlmond Blue BlueViolet Brown BurlyWood CadetBlue Chartreuse Chocolate Coral CornflowerBlue Cornsilk Crimson Cyan DarkBlue DarkCyan DarkGoldenRod DarkGray DarkGrey DarkGreen DarkKhaki DarkMagenta DarkOliveGreen DarkOrange DarkOrchid DarkRed DarkSalmon DarkSeaGreen DarkSlateBlue DarkSlateGray DarkSlateGrey DarkTurquoise DarkViolet DeepPink DeepSkyBlue DimGray DimGrey DodgerBlue FireBrick FloralWhite ForestGreen Fuchsia Gainsboro Gold GoldenRod Gray Green GreenYellow HoneyDew HotPink IndianRed Indigo Ivory Khaki Lavender LavenderBlush LawnGreen LemonChiffon LightBlue LightCoral LightCyan LightGoldenRodYellow LightGray LightGrey LightGreen LightPink LightSalmon LightSeaGreen LightSkyBlue LightSlateGray LightSlateGrey LightSteelBlue LightYellow Lime LimeGreen Linen Magenta Maroon MediumAquaMarine MediumBlue MediumOrchid MediumPurple MediumSeaGreen MediumSlateBlue MediumSpringGreen MediumTurquoise MediumVioletRed MidnightBlue MintCream MistyRose Moccasin NavajoWhite Navy OldLace Olive OliveDrab Orange OrangeRed Orchid PaleGoldenRod PaleGreen PaleTurquoise PaleVioletRed PapayaWhip PeachPuff Peru Pink Plum PowderBlue Purple RebeccaPurple Red RosyBrown RoyalBlue SaddleBrown Salmon SandyBrown SeaGreen SeaShell Sienna Silver SkyBlue SlateBlue SlateGray SlateGrey Snow SpringGreen SteelBlue Tan Teal Thistle Tomato Turquoise Violet Wheat Yellow YellowGreen}
+
+COLORS = %w{Red Blue DarkBlue Purple Black Magenta Black Orange Brown Maroon Green Olive}
 
 FORTUNE_TELLER_IMAGES = [
   "https://media.giphy.com/media/CToJzvhONI6A0/giphy.gif",
@@ -27,14 +29,14 @@ class App < Roda
   plugin :public, root: 'images'
   if development
     plugin :middleware_stack
-    plugin :live_reload, watch: ["images", "views", "lib", "config.ru"]
-    #
+    # plugin :live_reload, watch: ["images", "views", "lib", "config.ru"]
+    
     middleware_stack.before{::BetterErrors::Middleware}
     ::BetterErrors.application_root = __dir__
   end
 
   route do |r|
-    r.live_reload if development
+    # r.live_reload if development
 
     r.public
 
@@ -45,16 +47,16 @@ class App < Roda
 
     # /tell branch
     r.get "tell" do
-      subjects = ["The Mothership", "Kiersten", "Hazel", "Dadu", "Biscuit"]
+      subjects = YAML.load_file("lib/subjects.yaml")
 
       @story = Story.new
       @image_url = FORTUNE_TELLER_IMAGES.sample
 
       @title = "I see #{subjects.count} things in your future!"
 
-      subject = subjects.shuffle
+      subjects = subjects.shuffle
 
-      sentences = ["First", "Second", "Then", "Finally"].zip(subject).collect do |opening_word, subject|
+      sentences = subjects.collect do |opening_word, subject|
         "#{opening_word}, #{@story.sentence(subject)}"
       end
 
